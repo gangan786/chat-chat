@@ -1,4 +1,4 @@
-package cn.gan.demo;
+package cn.gan.chatchat;
 
 import org.junit.jupiter.api.Test;
 import org.springframework.boot.test.context.SpringBootTest;
