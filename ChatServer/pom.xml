@@ -9,7 +9,7 @@
         <relativePath/> <!-- lookup parent from repository -->
     </parent>
     <groupId>cn.gan</groupId>
-    <artifactId>chat-chat</artifactId>
+    <artifactId>chat-chat-server</artifactId>
     <version>0.0.1-SNAPSHOT</version>
     <name>ChatServer</name>
     <description>服务端</description>
