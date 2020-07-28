@@ -1,10 +1,10 @@
-package cn.gan.chatchat;
+package cn.gan.chatchat.chatserver.chatclient;
 
 import org.junit.jupiter.api.Test;
 import org.springframework.boot.test.context.SpringBootTest;
 
 @SpringBootTest
-class ChatServerApplicationTests {
+class ChatClientApplicationTests {
 
     @Test
     void contextLoads() {

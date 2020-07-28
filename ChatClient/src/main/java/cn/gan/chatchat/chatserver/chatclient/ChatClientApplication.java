@@ -1,13 +1,13 @@
-package cn.gan.chatchat;
+package cn.gan.chatchat.chatserver.chatclient;
 
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 
 @SpringBootApplication
-public class ChatServerApplication {
+public class ChatClientApplication {
 
     public static void main(String[] args) {
-        SpringApplication.run(ChatServerApplication.class, args);
+        SpringApplication.run(ChatClientApplication.class, args);
     }
 
 }

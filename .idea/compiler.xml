@@ -6,15 +6,19 @@
         <sourceOutputDir name="target/generated-sources/annotations" />
         <sourceTestOutputDir name="target/generated-test-sources/test-annotations" />
         <outputRelativeToContentRoot value="true" />
+        <module name="ChatClient" />
         <module name="ChatServer" />
       </profile>
     </annotationProcessing>
     <bytecodeTargetLevel>
+      <module name="chat-chat" target="1.8" />
+      <module name="ChatClient" target="1.8" />
       <module name="ChatServer" target="1.8" />
     </bytecodeTargetLevel>
   </component>
   <component name="JavacSettings">
     <option name="ADDITIONAL_OPTIONS_OVERRIDE">
+      <module name="ChatClient" options="-parameters" />
       <module name="ChatServer" options="-parameters" />
     </option>
   </component>
