@@ -1,4 +1,4 @@
-package cn.gan.chatchat.chatserver.chatclient;
+package cn.gan.chatchat.chatclient;
 
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;

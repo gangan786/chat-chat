@@ -1,4 +1,4 @@
-package cn.gan.chatchat.chatserver.chatclient;
+package cn.gan.chatchat.chatclient;
 
 import org.junit.jupiter.api.Test;
 import org.springframework.boot.test.context.SpringBootTest;
