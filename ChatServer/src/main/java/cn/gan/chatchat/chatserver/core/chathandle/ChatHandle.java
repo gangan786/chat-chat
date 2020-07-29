@@ -28,6 +28,7 @@ public class ChatHandle extends SimpleChannelInboundHandler<TextWebSocketFrame> 
         System.out.println("address："+remoteAddress.getAddress());
         System.out.println("hostString："+remoteAddress.getHostString());
         System.out.println("port："+remoteAddress.getPort());
+
     }
 
 }
