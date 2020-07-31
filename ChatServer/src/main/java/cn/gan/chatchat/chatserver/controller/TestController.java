@@ -25,7 +25,7 @@ public class TestController {
         String name = nettyBoot.toString();
         System.out.println(name);
         System.out.println("fuck");
-        return "hello word fuck";
+        return "hello word fuck fuck";
     }
 
 }
