@@ -37,7 +37,7 @@ public class ChatHandle extends SimpleChannelInboundHandler<TextWebSocketFrame> 
         message.put("port", String.valueOf(remoteAddress.getPort()));
         String rsp = JSON.toJSONString(message);
 
-        channelHandlerContext.channel().writeAndFlush(rsp);
+        channelHandlerContext.channel().writeAndFlush(new TextWebSocketFrame(rsp));
     }
 
 }
