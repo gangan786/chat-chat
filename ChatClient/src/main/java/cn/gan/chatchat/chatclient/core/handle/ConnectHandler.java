@@ -13,11 +13,12 @@ import io.netty.util.CharsetUtil;
  * @Author: Gangan.chen
  */
 
-public class WebSocketClientHandler extends SimpleChannelInboundHandler<Object> {
+@ChannelHandler.Sharable
+public class ConnectHandler extends SimpleChannelInboundHandler<Object> {
     private final WebSocketClientHandshaker handshaker;
     private ChannelPromise handshakeFuture;
 
-    public WebSocketClientHandler(final WebSocketClientHandshaker handshaker) {
+    public ConnectHandler(final WebSocketClientHandshaker handshaker) {
         this.handshaker = handshaker;
 
     }
@@ -57,11 +58,12 @@ public class WebSocketClientHandler extends SimpleChannelInboundHandler<Object> 
 
         final WebSocketFrame frame = (WebSocketFrame) msg;
         if (frame instanceof TextWebSocketFrame) {
-            System.out.println("返回的消息为："+((TextWebSocketFrame) frame).text());
+            System.out.println("Connect收到的消息为：" + ((TextWebSocketFrame) frame).text());
         } else if (frame instanceof PongWebSocketFrame) {
-        } else if (frame instanceof CloseWebSocketFrame)
+
+        } else if (frame instanceof CloseWebSocketFrame) {
             ch.close();
-        else if (frame instanceof BinaryWebSocketFrame) {
+        } else if (frame instanceof BinaryWebSocketFrame) {
             System.out.println(frame.content().toString());
         }
 

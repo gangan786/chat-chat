@@ -1,11 +1,8 @@
 package cn.gan.chatchat.chatclient.core;
 
-import cn.gan.chatchat.chatclient.core.handle.WebSocketClientHandler;
+import cn.gan.chatchat.chatclient.core.handle.ConnectHandler;
 import io.netty.bootstrap.Bootstrap;
-import io.netty.channel.Channel;
-import io.netty.channel.ChannelInitializer;
-import io.netty.channel.ChannelPipeline;
-import io.netty.channel.EventLoopGroup;
+import io.netty.channel.*;
 import io.netty.channel.nio.NioEventLoopGroup;
 import io.netty.channel.socket.SocketChannel;
 import io.netty.channel.socket.nio.NioSocketChannel;
@@ -28,34 +25,39 @@ import java.net.URI;
  * @Author: Gangan.chen
  */
 
-public class WebSocketClient {
+public class WebSocketConnectServer {
 
     private final URI uri;
     private Channel ch;
     private static final EventLoopGroup group = new NioEventLoopGroup();
-    private WebSocketClient webSocketClient;
+    private WebSocketConnectServer webSocketConnectServer;
+    private boolean isConnect = false;
 
 
 
-    public WebSocketClient(final String uri) {
+    public WebSocketConnectServer(final String uri) {
         this.uri = URI.create(uri);
     }
 
     public void open() throws Exception {
         Bootstrap b = new Bootstrap();
         String protocol = uri.getScheme();
+
+        String localPort = System.getProperty("localPort");
+
         if (!"ws".equals(protocol)) {
             throw new IllegalArgumentException("Unsupported protocol: " + protocol);
         }
 
-        final WebSocketClientHandler handler =
-                new WebSocketClientHandler(
+        final ConnectHandler handler =
+                new ConnectHandler(
                         WebSocketClientHandshakerFactory.newHandshaker(
                                 uri, WebSocketVersion.V13, null, false, EmptyHttpHeaders.INSTANCE, 1280000)
                 );
 
         b.group(group)
                 .channel(NioSocketChannel.class)
+                .option(ChannelOption.SO_REUSEADDR,true)
                 .handler(new ChannelInitializer<SocketChannel>() {
                     @Override
                     public void initChannel(SocketChannel ch) throws Exception {
@@ -64,10 +66,17 @@ public class WebSocketClient {
                         pipeline.addLast("aggregator", new HttpObjectAggregator(65536));
                         pipeline.addLast("ws-handler", handler);
                     }
-                });
+                })
+                .bind(Integer.parseInt(localPort));
 
         ch = b.connect(uri.getHost(), uri.getPort()).sync().channel();
+
         handler.handshakeFuture().sync();
+        isConnect = true;
+    }
+
+    public boolean isConnect() {
+        return isConnect;
     }
 
     public void close() throws InterruptedException {

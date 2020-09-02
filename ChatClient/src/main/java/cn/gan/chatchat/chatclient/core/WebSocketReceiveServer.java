@@ -1,61 +1,52 @@
-package cn.gan.chatchat.chatserver.core;
+package cn.gan.chatchat.chatclient.core;
 
-import cn.gan.chatchat.chatserver.Constant;
 import io.netty.bootstrap.ServerBootstrap;
-import io.netty.channel.Channel;
 import io.netty.channel.ChannelFuture;
 import io.netty.channel.ChannelOption;
 import io.netty.channel.EventLoopGroup;
 import io.netty.channel.nio.NioEventLoopGroup;
 import io.netty.channel.socket.nio.NioServerSocketChannel;
-import io.netty.handler.codec.http.EmptyHttpHeaders;
-import io.netty.handler.codec.http.websocketx.TextWebSocketFrame;
-import io.netty.handler.codec.http.websocketx.WebSocketClientHandshaker;
-import io.netty.handler.codec.http.websocketx.WebSocketClientHandshakerFactory;
-import io.netty.handler.codec.http.websocketx.WebSocketVersion;
 import org.springframework.stereotype.Component;
-
-import java.net.InetSocketAddress;
-import java.net.URI;
 
 /**
  * 深圳依时货拉拉科技有限公司 版权所有 © Copyright 2020 <br>
  *
  * @Description: TODO
- * @CreateDate: 2020/7/28 3:52 下午 <br>
+ * @CreateDate: 2020/9/1 5:34 下午 <br>
  * @Author: Gangan.chen
  */
 
 @Component
-public class WebSocketServer {
+public class WebSocketReceiveServer {
 
-    private static class SingleWebSocketServer {
-        static final WebSocketServer INSTANCE = new WebSocketServer();
+    private static class SingleWebSocketReceiveServer {
+        static final WebSocketReceiveServer INSTANCE = new WebSocketReceiveServer();
     }
 
-    public static WebSocketServer getInstance() {
-        return SingleWebSocketServer.INSTANCE;
+    public static WebSocketReceiveServer getInstance() {
+        return SingleWebSocketReceiveServer.INSTANCE;
     }
 
     private EventLoopGroup mainGroup;
     private EventLoopGroup subGroup;
     private ServerBootstrap server;
     private ChannelFuture future;
+    private String localPort;
 
-    public WebSocketServer() {
+    private WebSocketReceiveServer() {
         mainGroup = new NioEventLoopGroup();
         subGroup = new NioEventLoopGroup();
         server = new ServerBootstrap();
         server.group(mainGroup, subGroup)
                 .channel(NioServerSocketChannel.class)
-                .childHandler(new WebSocketServerInitializer());
+                .option(ChannelOption.SO_REUSEADDR,true)
+                .childHandler(new WebSocketReceiveServerInitializer());
+        localPort = System.getProperty("localPort");
     }
 
     public void start() {
         try {
-            this.future = server.bind(8088).sync();
-
-            Constant.channel = this.future.channel();
+            this.future = server.bind(Integer.parseInt(localPort)).sync();
             System.err.println("netty websocket server 启动完毕...");
 
         } catch (InterruptedException e) {
